@@ -17,7 +17,7 @@ export const createProduct = async (req, res) => {
           Name VARCHAR(255) NOT NULL,
           CategoryName VARCHAR(255) NOT NULL,
           Price DECIMAL(10, 2) NOT NULL,
-          status ENUM('Active', 'Inactive') NOT NULL DEFAULT 'Active',
+          status ENUM('Active', 'inActive') NOT NULL DEFAULT 'Active',
           UserId VARCHAR(255) NOT NULL,
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
@@ -53,7 +53,14 @@ export const getAllProducts = async (req, res) => {
   try {
     const { Category_DataBase, id: userId } = req.user;
     const connection = await connectUserDB(Category_DataBase);
+    const [isexists] = await connection.execute("SHOW TABLES");
+    const tableExists = isexists.find(
+      (item) => item.Tables_in_books === "categories"
+    );
 
+    if (!tableExists) {
+      return res.status(200).json([]); // table does not exist
+    }
     const [rows] = await connection.execute(
       "SELECT * FROM products WHERE UserId = ?",
       [userId]

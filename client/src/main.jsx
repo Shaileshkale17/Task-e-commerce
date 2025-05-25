@@ -9,6 +9,8 @@ import store from "./redux/store";
 import Home from "./Page/Home";
 import Register from "./Page/Register";
 import ProtectedRoute from "./Middlewares/routes.Middlewares";
+import Category from "./Page/Category";
+import Products from "./Page/Products";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -27,6 +29,22 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <Home />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/category",
+        element: (
+          <ProtectedRoute>
+            <Category />
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "/products",
+        element: (
+          <ProtectedRoute>
+            <Products />
           </ProtectedRoute>
         ),
       },

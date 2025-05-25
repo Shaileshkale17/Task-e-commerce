@@ -1,10 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { login } from "../redux/slices/authSlice";
 import Input from "../components/Input";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const Register = () => {
   const [form, setForm] = useState({
     Email: "",
@@ -13,16 +11,13 @@ const Register = () => {
     FullName: "",
     Category_DataBase: "",
   });
-  const dispatch = useDispatch();
-  const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const handleChange = (field) => (value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const res = await axios.post(
@@ -30,13 +25,16 @@ const Register = () => {
         form
       );
       console.log(res);
+      console.log(res.data);
+      console.log(res.data.message);
       if (res.status === 201) {
-        // dispatch(login(res.data));
-        window.location.replace("/");
+        toast.success(res.data.message);
+        navigate("/");
+        // window.location.replace("/");
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
-      setError(err.response?.data?.message || "Login failed");
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -73,7 +71,6 @@ const Register = () => {
             getData={form.Category_DataBase}
             setData={handleChange("Category_DataBase")}
           />
-          {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
           <button
             type="submit"
             className="mt-5 border px-7 py-1.5 rounded hover:text-black text-white hover:bg-transparent bg-black">
@@ -81,8 +78,8 @@ const Register = () => {
           </button>
         </div>
 
-        <Link to="/register" className="mt-7 text-blue-600 hover:text-blue-300">
-          Create your account
+        <Link to="/" className="mt-7 text-blue-600 hover:text-blue-300">
+          Login your account
         </Link>
       </form>
     </div>

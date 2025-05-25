@@ -2,24 +2,22 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { login } from "../redux/slices/authSlice";
 import Input from "../components/Input";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import { toast } from "react-toastify";
 const Login = () => {
   const [form, setForm] = useState({
     Email: "",
     Password: "",
   });
   const dispatch = useDispatch();
-  const [error, setError] = useState("");
-
+  const navigate = useNavigate();
   const handleChange = (field) => (value) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
   const submitForm = async (e) => {
     e.preventDefault();
-    setError("");
 
     try {
       const res = await axios.post(
@@ -28,11 +26,12 @@ const Login = () => {
       );
       if (res.status === 200) {
         dispatch(login(res.data));
-        window.location.replace("/home");
+        navigate("/home");
+        // window.location.replace("/home");
       }
     } catch (err) {
       console.error(err.response?.data || err.message);
-      setError(err.response?.data?.message || "Login failed");
+      toast.error(err.response?.data?.message || "Login failed");
     }
   };
 
@@ -54,7 +53,7 @@ const Login = () => {
             getData={form.Password}
             setData={handleChange("Password")}
           />
-          {error && <p className="text-red-600 text-sm mt-2">{error}</p>}
+
           <button
             type="submit"
             className="mt-5 border px-7 py-1.5 rounded hover:text-black text-white hover:bg-transparent bg-black">
