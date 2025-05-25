@@ -26,7 +26,6 @@ const Login = () => {
         `${import.meta.env.VITE_BACKEND_URL}/user/login`,
         form
       );
-
       if (res.status === 200) {
         dispatch(login(res.data));
         window.location.replace("/home");

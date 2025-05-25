@@ -8,6 +8,7 @@ import { Provider } from "react-redux";
 import store from "./redux/store";
 import Home from "./Page/Home";
 import Register from "./Page/Register";
+import ProtectedRoute from "./Middlewares/routes.Middlewares";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -23,7 +24,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/home",
-        element: <Home />,
+        element: (
+          <ProtectedRoute>
+            <Home />
+          </ProtectedRoute>
+        ),
       },
     ],
   },
