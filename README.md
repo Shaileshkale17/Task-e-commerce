@@ -1,11 +1,12 @@
 # Task-e-commerce
 
-An e-commerce backend built with **Node.js**, **Express**, and **MySQL**. It supports user authentication, product management, and secure API integration using JWT.
+An e-commerce Full Stack built with **React.js**,**Node.js**, **Express**, and **MySQL**. It supports user authentication, product management, and secure API integration using JWT.
 
 ---
 
 ## 🏗️ Tech Stack
 
+- **Frontend**: React.js, Redux
 - **Backend**: Node.js, Express.js
 - **Database**: MySQL
 - **Authentication**: JSON Web Tokens (JWT)
